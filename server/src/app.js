@@ -1,8 +1,15 @@
 import crypto from 'node:crypto';
+import { existsSync } from 'node:fs';
 import cors from 'cors';
 import express from 'express';
 import { TaskStore } from './storage.js';
 import { cleanReorderInput, cleanTaskInput, filterTasks, getCounts } from './validators.js';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const clientDistPath = path.resolve(__dirname, '../../client/dist');
+const clientIndexPath = path.join(clientDistPath, 'index.html');
 
 export function createApp({ store = new TaskStore() } = {}) {
   const app = express();
@@ -134,9 +141,21 @@ export function createApp({ store = new TaskStore() } = {}) {
     }
   });
 
-  app.use((req, res) => {
+  app.use('/api', (req, res) => {
     res.status(404).json({ error: 'Route not found.' });
   });
+
+  if (existsSync(clientIndexPath)) {
+    app.use(express.static(clientDistPath));
+
+    app.get('*', (req, res) => {
+      res.sendFile(clientIndexPath);
+    });
+  } else {
+    app.use((req, res) => {
+      res.status(404).json({ error: 'Route not found.' });
+    });
+  }
 
   app.use((error, req, res, next) => {
     console.error(error);
