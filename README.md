@@ -4,10 +4,8 @@ This project is my solution for the Studio Graphene full-stack task management e
 
 ## Live Demo Links
 
-Not deployed yet.
-
-- Frontend: Not available
-- Backend API: Not available
+Deployed on render:
+https://task-manager-app-8yfp.onrender.com/
 
 ## Tech Stack
 
