@@ -1,0 +1,8 @@
+node_modules/
+dist/
+server/data/tasks.json
+.env
+.env.local
+npm-debug.log*
+coverage/
+.DS_Store
