@@ -12,7 +12,7 @@ let app;
 
 beforeEach(async () => {
   tempDir = await mkdtemp(path.join(os.tmpdir(), 'task-manager-test-'));
-  const store = new TaskStore(path.join(tempDir, 'tasks.json'));
+  const store = new TaskStore(path.join(tempDir, 'tasks.json'), { seedOnMissing: false });
   app = createApp({ store });
 });
 
